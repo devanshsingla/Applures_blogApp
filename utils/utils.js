@@ -11,7 +11,7 @@ const path = require('path');
 global.__basedir = path.resolve(__dirname);
 
 
-const emailTemplatePath = 'C:/Users/asus/OneDrive/Desktop/Projects/Blog_app/utils/temp.html';
+const emailTemplatePath = 'utils/temp.html';
 const emailTemplate = readFileSync(emailTemplatePath, 'utf8');
 
 const validateEmail = (email)=>{

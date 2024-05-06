@@ -7,7 +7,7 @@ const fs = require('fs');
 
     
     const createUser = async (params) => {
-        const query = `INSERT INTO users (email, first_name, password, phone_number, last_name) VALUES (?, ?, ?, ?, ?)`;
+        const query = `INSERT INTO users (email, firstName, password, number, lastName) VALUES (?, ?, ?, ?, ?)`;
         
        
         return new Promise((resolve, reject) => {
@@ -233,7 +233,7 @@ const getImage = (email)=>{
     })
 }
   
-  
+
   
 
 

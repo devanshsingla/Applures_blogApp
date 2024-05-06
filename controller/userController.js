@@ -82,27 +82,33 @@ const getAllusercontroller = async (req,res,next) =>{
 
 }
 
-const loginOTPController = async (req,res,next)=>{
+const sendOTP = async (req,res,next)=>{
     
-    if(!req.body.email){
+        
+   if(!req.body.email){
+      
+      res.status(400).json({message:"No email "})
+   }
 
-         res.status(400).json({message:"Please enter email "})
-    }
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    
-    const data = {
-        email :req.body.email,
-        otp:otp,
-        expires_at: Date.now() + 5 * 60 * 1000
-    }
-    console.log(Date.now() + 5 * 60 * 1000)
-
-   try{const result = await OTPstore(data)}
-   catch(e){return console.log(e)}
+   const otp = Math.floor(100000 + Math.random() * 900000).toString();
    
-   await sendEmail(data.email,data.otp)
-   res.status(200).json({otp:otp})
-   next()
+   let params = {
+      email: req.body.email,
+      otp: otp,
+      lastName: req.body.lastName,
+      firstName : req.body.firstName
+   }
+   
+   try {
+      const result = await userServices.sendOtpServices(params)
+      
+      res.status(200).json(result)
+   } catch (e) {
+      console.log(e)
+      res.status(500).json({message:e})
+      
+   }
+
 }
 
 const verifyOTPlogin = async (req,res,next)=>{
@@ -210,5 +216,5 @@ const getImagecontroller = async (req,res,next) =>{
 
 }
 
-const userController = {createUser,loginUser,getAllusercontroller,loginOTPController,verifyOTPlogin,uploadImage,getImagecontroller}
+const userController = {createUser,loginUser,getAllusercontroller,sendOTP,verifyOTPlogin,uploadImage,getImagecontroller}
 module.exports = userController;
