@@ -113,60 +113,76 @@ const sendOTP = async (req,res,next)=>{
 
 const verifyOTPlogin = async (req,res,next)=>{
     
-    const {otp,email,device_type,device_token} = req.body
+   //  const {otp,email,device_type,device_token} = req.body
 
 
-   if(!otp || ! email ){
-      return res.json({message:"ENTER login and email !"})
-   }
+   // if(!otp || ! email ){
+   //    return res.json({message:"ENTER login and email !"})
+   // }
  
-   const data = await verifyOTP(email);
+   // const data = await verifyOTP(email);
    
 
-   if(!otp == data.otp){
+   // if(!otp == data.otp){
 
-     return res.status(400).json({message:"Invalid OTP! "})
+   //   return res.status(400).json({message:"Invalid OTP! "})
+   // }
+      
+   //    // res.status(200).json({message:"OTP verified!"})
+
+   //    let user = await getUser(email)
+
+   // let newUser = {
+   //    email:email,
+   //    device_token:device_token,
+   //    device_type:device_type
+   // }
+      
+   //  if(!user.length){
+   //   try{
+   //   let result = await CreateUserOTP(newUser);
+   //   let login = await login_history(newUser);
+   //   console.log(result,login)
+
+   //   let token = await encode(newUser)
+   //   return res.status(201).json({message:"USER created succesfully",token:token})
+
+   //   }catch(e){
+   //     console.log(e)
+   //   }
+   //  }else{
+   //    try{
+
+   //    let result = await  updateUser(newUser);
+   //    let login = await login_history(newUser);
+
+   //    let token = await encode(newUser)
+      
+   //    console.log(result,login)
+   //       return res.status(200).json({message:"LOGIN Succesfully",token:token})
+   //    }catch(err){
+   //       console.log(err);
+   //    }
+
+   //  }
+   if (!req.body.email || !req.body.otp) {
+      res.status(400).json({message:"No email or otp !"})
    }
-      
-      // res.status(200).json({message:"OTP verified!"})
-
-      let user = await getUser(email)
-
-   let newUser = {
-      email:email,
-      device_token:device_token,
-      device_type:device_type
-   }
-      
-    if(!user.length){
-     try{
-     let result = await CreateUserOTP(newUser);
-     let login = await login_history(newUser);
-     console.log(result,login)
-
-     let token = await encode(newUser)
-     return res.status(201).json({message:"USER created succesfully",token:token})
-
-     }catch(e){
-       console.log(e)
-     }
-    }else{
-      try{
-
-      let result = await  updateUser(newUser);
-      let login = await login_history(newUser);
-
-      let token = await encode(newUser)
-      
-      console.log(result,login)
-         return res.status(200).json({message:"LOGIN Succesfully",token:token})
-      }catch(err){
-         console.log(err);
-      }
-
-    }
    
+   let user = {
+      email: req.body.email,
+      otp: req.body.otp
+   }
+   try {
+      let result = await userServices.verifyOTPServices(user);
+      res.status(200).json({ message: result })
+   
+   } catch (e) {
+      res.status(400).json({message:e})
+   }
 
+   
+   
 }
 
 const uploadImage = async (req,res,next)=>{
@@ -190,7 +206,7 @@ const uploadImage = async (req,res,next)=>{
 
    try{
      console.log(result)
-     res.status(200).json({message:result})
+     res.status(200).json({result})
    }catch(err){
       console.log(err)
       res.status(400).json({message:err})

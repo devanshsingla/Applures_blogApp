@@ -1,7 +1,8 @@
 const userModels = require("../models/userModels")
 const userCache = require('../utils/otp')
 const { validateEmail, sendEmail } = require('../utils/utils')
-const { putUserCache ,checkUserLimit} = require('../utils/otp')
+const { putUserCache, checkUserLimit} = require('../utils/otp')
+const {encode} = require('../middleware/jwt')
 
 
 const createUser = async (params)=>{
@@ -72,12 +73,56 @@ const sendOtpServices = async(params) => {
       return params.otp
    }
 
-   
+}
 
+const verifyOTPServices = async (params) => {
+   let userData;
+   let otp;
+   // console.log(userCache.userCache)
+   Object.keys(userCache.userCache).forEach((key) => {
+   
+      let emailotpstr = key.split('-')
+      
+      if (params.email == emailotpstr[1]) {
+         userData = userCache.userCache[key];
+
+         otp = emailotpstr[0]
+      }
+   
+   });
+   if (!userData) {
+      return {message:"No OTP exists!"}
+   }
+
+   if (!otp == params.otp) {
+      return {message:"Invalid OTP"}
+   };
+
+   if (!userData.existingUser) {
+      let newUser = {
+         firstName: userData.userdata.firstName,
+         lastName: userData.userdata.lastName,
+         email: params.email
+      }
+   
+      
+      try { 
+         let result = await userModels.createUser(newUser)
+         let token = await encode(newUser)
+         return {message:"user created succesfully",token:token}
+      }
+      catch (e) {
+         console.log(e)
+      }
+   } 
+   let token = await encode(userData);
+   return {message:"Logged in succesfully", token:token}
+   
+   
 }
 
 
-const userServices = { createUser ,sendOtpServices};
+const userServices = { createUser ,sendOtpServices,verifyOTPServices};
 
 
 module.exports = userServices

@@ -52,5 +52,5 @@ const checkUserLimit = (email) => {
 
 
 
-module.exports = { putUserCache ,checkUserLimit}
+module.exports = { putUserCache ,checkUserLimit,userCache}
 

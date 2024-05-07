@@ -7,11 +7,11 @@ const fs = require('fs');
 
     
     const createUser = async (params) => {
-        const query = `INSERT INTO users (email, firstName, password, number, lastName) VALUES (?, ?, ?, ?, ?)`;
+        const query = 'INSERT INTO users (email, firstName, lastName) VALUES (?, ?, ?)';
         
        
         return new Promise((resolve, reject) => {
-            connection.query(query, [params.email, params.firstName, params.password, params.number, params.lastName], (err, results) => {
+            connection.query(query, [params.email, params.firstName, params.lastName], (err, results) => {
                 if (err) {
                     console.error('Error inserting data:', err);
                     reject(err); 
