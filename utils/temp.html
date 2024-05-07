@@ -1,53 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTP Email</title>
-  <style>
-    /* Add your CSS styles here */
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
-    .header {
-      background-color: #f4f4f4;
-      padding: 10px;
-    }
-    .content {
-      padding: 20px 0;
-    }
-    .footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-    }
-    .otp-code {
-      font-size: 24px;
-      font-weight: bold;
-      color: #007bff;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>OTP for Verification</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Email</title>
+    <style>
+      /* Add your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      .header {
+        background-color: #f4f4f4;
+        padding: 10px;
+      }
+      .content {
+        padding: 20px 0;
+      }
+      .footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+      }
+      .otp-code {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>OTP for Verification</h1>
+      </div>
+      <div class="content">
+        <p>Your One-Time Password (OTP) for verification:</p>
+        <p class="otp-code">{{otp}}</p>
+        <p>Please use this OTP to verify your email.</p>
+      </div>
+      <div class="footer">
+        <p>BLOG APP</p>
+      </div>
     </div>
-    <div class="content">
-      <p>Your One-Time Password (OTP) for verification:</p>
-      <p class="otp-code">{{otp}}</p>
-      <p>Please use this OTP to verify your email.</p>
-    </div>
-    <div class="footer">
-      <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-    </div>
-  </div>
-</body>
+  </body>
+</html>
