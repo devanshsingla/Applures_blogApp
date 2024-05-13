@@ -1,20 +1,22 @@
+
 const { decode } = require('./jwt');
 
 const auth = (req, res, next) => {
-  try {
-    if (token) {
-      let user = decode(token);
-
-      let userid = user.id;
-
-      next();
-    } else {
-      res.json({ message: 'Unauthorized user' });
-    }
-  } catch (e) {
-    console.log(e);
-    res.json({ message: 'Unauthorized user' });
+  if (!req.headers['authorization']) {
+   return res.status(400).json({message:"No token"})
   }
+  
+  let token = req.headers['authorization']
+  let newtoken = token.substring(7,token.length)
+  let user;
+  try {
+    user = decode(newtoken);
+  } catch (e) {
+    return res.status(400).json({ message: "unauthorized user" });
+  }
+  req.user = user;
+  
+  next()
 };
 
 module.exports = { auth };

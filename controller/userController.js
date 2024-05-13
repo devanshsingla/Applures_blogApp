@@ -48,7 +48,7 @@ const createUser = async (req, res, next) => {
 
   const password = await hashPassword(req.body.password);
 
-  const newUser = {
+  const newUserParams = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     password: password,
@@ -115,13 +115,13 @@ const sendOTP = async (req, res, next) => {
 
     return res.status(200).json(result);
   } catch (e) {
-    throw e;
+    return res.json({e});
   }
 };
 
 const verifyOTPlogin = async (req, res, next) => {
   if (!req.body.email || !req.body.otp) {
-    res.status(400).json({ message: 'Enter email or password' });
+    return res.status(400).json({ message: 'Enter email or otp' });
   }
 
   let user = {
@@ -130,9 +130,9 @@ const verifyOTPlogin = async (req, res, next) => {
   };
   try {
     let result = await userServices.verifyOTPServices(user);
-    res.status(200).json({ message: result });
+    return res.status(200).json({ message: result });
   } catch (e) {
-    res.status(400).json({ message: e });
+    return res.status(400).json({ message: e });
   }
 };
 
