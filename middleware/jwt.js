@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secretKey = "hello1234";
+const secretKey = 'hello1234';
 
 const encode = (payload) => {
   const options = {
@@ -14,9 +14,8 @@ const encode = (payload) => {
 const decode = (token) => {
   if (!token) console.log('token missing');
   let data = jwt.decode(token, secretKey);
-  
+
   return data;
-  
 };
 
 module.exports = { encode, decode };

@@ -2,20 +2,20 @@ const connection = require('../db');
 const fs = require('fs');
 
 const createUser = async (params) => {
-    const query =
-        'INSERT INTO users (email, firstName, lastName) VALUES (?, ?, ?);';
+  const query =
+    'INSERT INTO users (email, firstName, lastName) VALUES (?, ?, ?);';
 
   return new Promise((resolve, reject) => {
     connection.query(
       query,
-      [params.email, params.firstName, params.lastName,params.email],
+      [params.email, params.firstName, params.lastName, params.email],
       (err, results) => {
         if (err) {
           console.error('Error inserting data:', err);
           reject(err);
         } else {
-            console.log('Data inserted:', results);
-            
+          console.log('Data inserted:', results);
+
           resolve(results);
         }
       },

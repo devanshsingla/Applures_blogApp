@@ -115,7 +115,7 @@ const sendOTP = async (req, res, next) => {
 
     return res.status(200).json(result);
   } catch (e) {
-    return res.json({e});
+    return res.json({ e });
   }
 };
 

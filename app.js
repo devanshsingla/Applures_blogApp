@@ -4,14 +4,13 @@ const connection = require('./db');
 const cors = require('cors');
 require('dotenv').config();
 const path = require('path');
-const body_parser = require('body-parser')
+const body_parser = require('body-parser');
 
-global.__basedir = path.resolve(__dirname)
-
+global.__basedir = path.resolve(__dirname);
 
 const app = express();
 app.use(express.json());
-app.use(body_parser.urlencoded({extended: true}))
+app.use(body_parser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 

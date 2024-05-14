@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const { readFileSync } = require('fs');
 
-
 const emailTemplatePath = 'utils/temp.html';
 const emailTemplate = readFileSync(emailTemplatePath, 'utf8');
 
@@ -12,7 +11,6 @@ const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
-
 
 const saltRounds = 10;
 const hashPassword = async (plainPassword) => {
@@ -24,7 +22,6 @@ const hashPassword = async (plainPassword) => {
   }
 };
 
-
 const comparePassword = async (plainPassword, hashedPassword) => {
   try {
     const match = await bcrypt.compare(plainPassword, hashedPassword);
@@ -33,7 +30,6 @@ const comparePassword = async (plainPassword, hashedPassword) => {
     throw error;
   }
 };
-
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -45,7 +41,6 @@ const transporter = nodemailer.createTransport({
   },
   debug: true,
 });
-
 
 async function sendEmail(toEmail, otp) {
   const formattedTemplate = emailTemplate.replace('{{otp}}', otp);
@@ -64,8 +59,6 @@ async function sendEmail(toEmail, otp) {
   }
 }
 
-
-
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
@@ -73,7 +66,6 @@ const imageFilter = (req, file, cb) => {
     cb('Please upload only images.', false);
   }
 };
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -84,8 +76,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage, fileFilter: imageFilter });
-
-
 
 module.exports = {
   validateEmail,
