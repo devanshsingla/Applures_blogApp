@@ -82,7 +82,7 @@ const verifyOTPServices = async (params) => {
   if (!userData) {
     return { message: 'No OTP exists!' };
   }
-  console.log(otp);
+
   if (!otp == params.otp) {
     return { message: 'Invalid OTP' };
   }
@@ -96,13 +96,17 @@ const verifyOTPServices = async (params) => {
 
     try {
       let result = await userModels.createUser(newUser);
+      let userID = await userModels.getUserByEmail(params.email);
+      newUser['userID'] = userID.id;
       let token = await encode(newUser);
       return { message: 'user created succesfully', token: token };
     } catch (e) {
-      console.log(e);
+      return console.log(e);
     }
   }
-  let token = await encode(userData);
+  let userID = await userModels.getUserByEmail(params.email);
+  userData.userdata['userid'] = userID.id;
+  let token = await encode(userData.userdata);
   return { message: 'Logged in succesfully', token: token };
 };
 

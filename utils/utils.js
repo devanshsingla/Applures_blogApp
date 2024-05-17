@@ -4,22 +4,15 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const { readFileSync } = require('fs');
 
-const path = require('path');
-
-global.__basedir = path.resolve(__dirname);
-
 const emailTemplatePath = 'utils/temp.html';
-
 const emailTemplate = readFileSync(emailTemplatePath, 'utf8');
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   return emailRegex.test(email);
 };
 
 const saltRounds = 10;
-
 const hashPassword = async (plainPassword) => {
   try {
     const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
@@ -82,7 +75,6 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-pic-${file.originalname}`);
   },
 });
-
 const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 module.exports = {
