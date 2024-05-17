@@ -1,4 +1,5 @@
 const blogModels = require('../models/blogModels');
+const userModels = require('../models/userModels')
 
 const createBlog = async (params) => {
   params['status'] = 1;
@@ -72,5 +73,64 @@ const replies = async (params) => {
   }
 };
 
-const blogServices = { createBlog, likes, comment, replies };
+const getBLogData = async (blogID) => {
+    
+    if (!blogID) {
+        return "Enter blogID"
+    }
+    
+    let blog;
+    try {
+        blog = await blogModels.getBlog(blogID)
+    } catch(err) {
+        return err
+    }
+    if (blog.length == 0) {
+        return "Blog doesnt exist"
+    };
+    blog = blog[0]
+    
+    let author;
+    try {
+        author = await userModels.getUserbyID(blog.userID)
+    } catch (err) {
+        return err;
+    }
+    
+    blog['author'] = author[0];
+
+    let likes;
+
+     try {
+        likes = await blogModels.getAllLikes(blogID)
+    } catch (err) {
+        return err;
+     }
+    
+    for (let i = 0; i < likes.length; i++){
+        try {
+            let user = await userModels.getUserbyID(likes[i].userID)
+            likes[i] = user[0]
+        } catch (err) {
+            return err
+        }
+    }
+    blog['likes'] = likes;
+    let comment;
+    try {
+        comment = await blogModels.getAllcomments(blogID)
+    } catch (err) {
+        return err;
+    }
+
+    blog['comments'] = comment
+
+
+
+    return blog;
+
+
+}
+
+const blogServices = { createBlog, likes, comment, replies ,getBLogData };
 module.exports = blogServices;

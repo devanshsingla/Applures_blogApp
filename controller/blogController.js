@@ -1,13 +1,11 @@
 const blogServices = require('../services/blogServices');
 const { upload } = require('../utils/utils');
 const blogModels = require('../models/blogModels');
-const { param } = require('../routes/blogRoutes');
+
 
 const createBlog = async (req, res) => {
   if (!req.body.title || !req.body.desc) {
-    return res
-      .status(400)
-      .json({ message: 'Enter title and description for the blog' });
+    return res.status(400).json({ message: 'Enter title and description for the blog' });
   }
 
   if (req.body.image) {
@@ -57,7 +55,7 @@ const getLikes = async (req, res, next) => {
   }
 
   try {
-    let result = await blogModels.getAllLikes(req.body);
+    let result = await blogModels.getAllLikes(req.body.blogID);
     if (result.length == 0) {
       res.status(200).json({ message: 'No likes' });
     } else {
@@ -99,7 +97,7 @@ const comment = async (req, res, next) => {
 
 const replies = async (req, res, next) => {
   if (!req.body.reply || !req.body.blogID || !req.body.commentID) {
-    res.status(400).json({ message: 'Insuffience data' });
+    return res.status(400).json({ message: 'Insuffience data' });
   }
 
   let commentParams = {
@@ -111,11 +109,26 @@ const replies = async (req, res, next) => {
 
   try {
     let result = await blogServices.replies(commentParams);
-    res.status(200).json({ message: result });
+    return res.status(200).json({ message: result });
   } catch (e) {
     res.status(400).json({ message: e });
   }
 };
+
+const getBlogdata = async (req, res, next) => {
+  if (!req.body.blogID) {
+    res.status(400).json({ message: 'Enter blogID' });
+  }
+
+  try {
+    let result = await blogServices.getBLogData(req.body.blogID);
+    res.status(200).json({ data: result });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+};
+
+
 
 const blogController = {
   createBlog,
@@ -124,5 +137,6 @@ const blogController = {
   getAllBLog,
   comment,
   replies,
+  getBlogdata,
 };
 module.exports = blogController;

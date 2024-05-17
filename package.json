@@ -16,7 +16,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
     "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
     "mysql2": "^3.9.4",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
@@ -24,6 +26,7 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
+    "curl-logger": "^1.0.1",
     "prettier": "^3.2.5"
   }
 }

@@ -12,5 +12,6 @@ blogRouter.post('/likeBlog', auth, blogController.likes);
 blogRouter.post('/Comment', auth, blogController.comment);
 blogRouter.get('/allcomments');
 blogRouter.post('/replies', auth, blogController.replies);
+blogRouter.get('/getBlog', blogController.getBlogdata);
 
 module.exports = blogRouter;
